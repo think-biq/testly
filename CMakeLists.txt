@@ -8,9 +8,10 @@ include_directories (
 	"${PROJECT_SOURCE_DIR}/src")
 add_library(Testly ${Testly_SRC})
 
-
-file(GLOB JustOnce_Test_SRC	
-	"${PROJECT_SOURCE_DIR}/test/*.c"
-	"${PROJECT_SOURCE_DIR}/test/**/*.c")
-add_executable (TestlyExample ${JustOnce_Test_SRC})
-target_link_libraries(TestlyExample Testly)
+if(Testly_WithTest)
+	file(GLOB Testly_Test_SRC	
+		"${PROJECT_SOURCE_DIR}/test/*.c"
+		"${PROJECT_SOURCE_DIR}/test/**/*.c")
+	add_executable (TestlyExample ${Testly_Test_SRC})
+	target_link_libraries(TestlyExample Testly)
+endif()

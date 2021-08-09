@@ -4,6 +4,7 @@ FILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 PROJECT_DIR := $(shell dirname $(FILE_PATH))
 PROJECT_NAME := $(notdir $(patsubst %/,%,$(dir $(FILE_PATH))))
 BUILD_DIR := "$(PROJECT_DIR)/staging"
+#BUILD_TEST_FLAG := -D Testly_WithTest=1
 
 default: all
 
@@ -17,13 +18,13 @@ clean:
 
 prepare:
 	@mkdir -p "$(BUILD_DIR)"
-	@(cd $(BUILD_DIR) && cmake ..)
+	@(cd $(BUILD_DIR) && cmake ${BUILD_TEST_FLAG} ..)
 
 build:
 	@make -C "$(BUILD_DIR)"
 
 run-test:
-	@"$(BUILD_DIR)/./TestlyExample"
+	@[ -f "$(BUILD_DIR)/./TestlyExample" ] && "$(BUILD_DIR)/./TestlyExample"
 
 build-run: build run-test
 
