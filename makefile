@@ -4,7 +4,7 @@ FILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 PROJECT_DIR := $(shell dirname $(FILE_PATH))
 PROJECT_NAME := $(notdir $(patsubst %/,%,$(dir $(FILE_PATH))))
 BUILD_DIR := "$(PROJECT_DIR)/staging"
-#BUILD_TEST_FLAG := -D Testly_WithTest=1
+BUILD_TEST_FLAG := #-D Testly_WithTest=1
 
 default: all
 
@@ -24,7 +24,7 @@ build:
 	@make -C "$(BUILD_DIR)"
 
 run-test:
-	@[ -f "$(BUILD_DIR)/./TestlyExample" ] && "$(BUILD_DIR)/./TestlyExample"
+	@(test -f "$(BUILD_DIR)/TestlyExample" && "$(BUILD_DIR)/./TestlyExample" ) || echo Skipping test ...
 
 build-run: build run-test
 
