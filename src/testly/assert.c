@@ -41,7 +41,7 @@ void VFail(const char* Name, int bExitOnFail, const char* FailFMT, va_list FailA
         exit(1);
 }
 
-int Assert(int DataSize, const char* Name, int bExitOnFail, const void* Expected, const void* Actual, const char* FailFMT, ...)
+int Assert(size_t DataSize, const char* Name, int bExitOnFail, const void* Expected, const void* Actual, const char* FailFMT, ...)
 {
     int Passed = 1;
 
@@ -49,11 +49,11 @@ int Assert(int DataSize, const char* Name, int bExitOnFail, const void* Expected
     {
         if (0 == DataSize)
         {
-            Passed = 0 == strcmp((const char*)Expected, (const char*)Actual);
+            Passed = (0 == strcmp((const char*)Expected, (const char*)Actual));
         }
         else
         {
-            Passed = 0 == memcmp(Expected, Actual, DataSize);
+            Passed = (0 == memcmp(Expected, Actual, DataSize));
         }     
     }
 

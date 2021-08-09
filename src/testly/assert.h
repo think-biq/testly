@@ -2,11 +2,13 @@
 #ifndef TESTLY_ASSERT_H_
 #define TESTLY_ASSERT_H_
 
+#include <string.h>
+
 #define TESTLY_EXIT_ON_FAIL 0
 
 #ifndef TESTLY_ASSERT_DISABLED
 void Fail(const char* Name, int bExitOnFail, const char* FailFMT, ...);
-int Assert(int DataSize, const char* Name, int bExitOnFail, const void* Expected, const void* Actual, const char* FailFMT, ...);
+int Assert(size_t DataSize, const char* Name, int bExitOnFail, const void* Expected, const void* Actual, const char* FailFMT, ...);
 #else
 #define Fail(...) {}
 #define Assert(...) (1)
