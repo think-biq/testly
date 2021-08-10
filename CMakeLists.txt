@@ -4,8 +4,8 @@ project (Testly)
 
 file (GLOB Testly_SRC
 	"${PROJECT_SOURCE_DIR}/src/**/*.c")
-include_directories (
-	"${PROJECT_SOURCE_DIR}/src")
+set (Testly_INC "${PROJECT_SOURCE_DIR}/src")
+include_directories (${Testly_INC})
 add_library(Testly ${Testly_SRC})
 
 if(Testly_WithTest)
