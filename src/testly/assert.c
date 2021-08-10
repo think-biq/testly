@@ -26,6 +26,7 @@ void Fail(const char* Name, int bExitOnFail, const char* FailFMT, ...)
         exit(1);
 }
 
+// Specialized version of Fail, to accept a concrete varadic argument list object.
 void VFail(const char* Name, int bExitOnFail, const char* FailFMT, va_list FailArgs)
 {
     fprintf(stdout, "\033[0;31m");
@@ -61,14 +62,7 @@ int Assert(size_t DataSize, const char* Name, int bExitOnFail, const void* Expec
     {
         va_list VarArgs;
         va_start(VarArgs, FailFMT);
-        if (NULL == Name)
-        {
-            VFail("NULL", bExitOnFail, FailFMT, VarArgs);
-        }
-        else
-        {
-            VFail(Name, bExitOnFail, FailFMT, VarArgs);
-        }
+        VFail(NULL == Name ? "NULL" : Name, bExitOnFail, FailFMT, VarArgs);
         va_end(VarArgs);
     }
 

@@ -4,20 +4,25 @@
 
 #include <stdio.h>
 
+/**
+* Runs the given function and evalues if test passed or failed.
+* 
+* @param Name Name of the test function.
+*/
 #define RUN_TEST(Name) \
 { \
     int Passed = Name(); \
     if (Passed) \
     { \
         fprintf(stdout, "\033[0;32m"); \
-        fprintf(stdout, "Passed: "); \
+        fprintf(stdout, "Test Passed: "); \
         fprintf(stdout, "\033[0m"); \
         fprintf(stdout, "%s.\n", #Name); \
     } \
     else \
     { \
         fprintf(stdout, "\033[0;31m"); \
-        fprintf(stdout, "Failed: "); \
+        fprintf(stdout, "Test Failed: "); \
         fprintf(stdout, "\033[0m"); \
         fprintf(stdout, "%s.\n", #Name); \
     } \
