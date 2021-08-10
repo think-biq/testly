@@ -10,7 +10,7 @@
 void Fail(const char* Name, int bExitOnFail, const char* FailFMT, ...)
 {
     fprintf(stdout, "\033[0;31m");
-    fprintf(stdout, "Failed: ");
+    fprintf(stdout, "Segment Failed: ");
     fprintf(stdout, "\033[0m"); // Reset color.
     fprintf(stdout, "%s.\n\t", Name);
 
@@ -30,7 +30,7 @@ void Fail(const char* Name, int bExitOnFail, const char* FailFMT, ...)
 void VFail(const char* Name, int bExitOnFail, const char* FailFMT, va_list FailArgs)
 {
     fprintf(stdout, "\033[0;31m");
-    fprintf(stdout, "Failed: ");
+    fprintf(stdout, "Segment Failed: ");
     fprintf(stdout, "\033[0m"); // Reset color.
     fprintf(stdout, "%s.\n\t", Name);
 
