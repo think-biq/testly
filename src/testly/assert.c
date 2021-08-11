@@ -1,3 +1,8 @@
+/*
+Copyright (c) 2021 blurryroots innovation qanat OÜ
+
+All rights reserved.
+*/
 
 #include "assert.h"
 

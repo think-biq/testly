@@ -1,3 +1,13 @@
+/*
+Copyright (c) 2021 blurryroots innovation qanat OÜ
+
+All rights reserved.
+*/
+/*! \file assert.h
+    \brief Defines Assert and Fail functions.
+    
+    ^^
+*/
 
 #ifndef TESTLY_ASSERT_H_
 #define TESTLY_ASSERT_H_

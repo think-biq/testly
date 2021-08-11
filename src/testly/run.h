@@ -1,3 +1,13 @@
+/*
+Copyright (c) 2021 blurryroots innovation qanat OÜ
+
+All rights reserved.
+*/
+/*! \file run.h
+    \brief Run macro.
+    
+    ^^
+*/
 
 #ifndef TESTLY_H_
 #define TESTLY_H_
