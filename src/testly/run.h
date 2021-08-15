@@ -4,7 +4,7 @@ Copyright (c) 2021 blurryroots innovation qanat OÜ
 All rights reserved.
 */
 /*! \file run.h
-    \brief Run macro.
+    \brief Defines utility functions to run tests.
     
     ^^
 */
@@ -12,6 +12,7 @@ All rights reserved.
 #ifndef TESTLY_H_
 #define TESTLY_H_
 
+#include "config.h"
 #include <stdio.h>
 
 /**
@@ -24,16 +25,16 @@ All rights reserved.
     int Passed = Name(); \
     if (Passed) \
     { \
-        fprintf(stdout, "\033[0;32m"); \
+        if (Testly_IsColorModeActive()) fprintf(stdout, "\033[0;32m"); \
         fprintf(stdout, "Test Passed: "); \
-        fprintf(stdout, "\033[0m"); \
+        if (Testly_IsColorModeActive()) fprintf(stdout, "\033[0m"); \
         fprintf(stdout, "%s.\n", #Name); \
     } \
     else \
     { \
-        fprintf(stdout, "\033[0;31m"); \
+        if (Testly_IsColorModeActive()) fprintf(stdout, "\033[0;31m"); \
         fprintf(stdout, "Test Failed: "); \
-        fprintf(stdout, "\033[0m"); \
+        if (Testly_IsColorModeActive()) fprintf(stdout, "\033[0m"); \
         fprintf(stdout, "%s.\n", #Name); \
     } \
 }

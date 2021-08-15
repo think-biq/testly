@@ -1,6 +1,7 @@
 #undef TESTLY_ASSERT_DISABLED
-#include "testly/assert.h"
-#include "testly/run.h"
+#include <testly/assert.h>
+#include <testly/config.h>
+#include <testly/run.h>
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -46,5 +47,8 @@ int TestRainAndFail()
 int main(void)
 {
 	RUN_TEST(TestRainAndFail);
+	RUN_TEST(TestSunshine);
+	printf("Disabling color ...\n");
+	Testly_SetColorMode(0);
 	RUN_TEST(TestSunshine);
 }

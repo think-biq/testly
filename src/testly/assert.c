@@ -6,17 +6,36 @@ All rights reserved.
 
 #include "assert.h"
 
+#include "config.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
 #include <stdarg.h>
 
+static int bIsColorModeActive = 1;
+
+void Testly_SetColorMode(int bColorModeActive)
+{
+    bIsColorModeActive = bColorModeActive;
+}
+
+int Testly_IsColorModeActive()
+{
+    return bIsColorModeActive;
+}
+
 void Fail(const char* Name, int bExitOnFail, const char* FailFMT, ...)
 {
-    fprintf(stdout, "\033[0;31m");
+    if (bIsColorModeActive)
+    {
+        fprintf(stdout, "\033[0;31m");
+    }
     fprintf(stdout, "Segment Failed: ");
-    fprintf(stdout, "\033[0m"); // Reset color.
+    if (bIsColorModeActive)
+    {
+        fprintf(stdout, "\033[0m"); // Reset color.
+    }
     fprintf(stdout, "%s.\n\t", Name);
 
     char FMT[strlen(FailFMT) + 1 + 1];
@@ -34,9 +53,15 @@ void Fail(const char* Name, int bExitOnFail, const char* FailFMT, ...)
 // Specialized version of Fail, to accept a concrete varadic argument list object.
 void VFail(const char* Name, int bExitOnFail, const char* FailFMT, va_list FailArgs)
 {
-    fprintf(stdout, "\033[0;31m");
+    if (bIsColorModeActive)
+    {
+        fprintf(stdout, "\033[0;31m");
+    }
     fprintf(stdout, "Segment Failed: ");
-    fprintf(stdout, "\033[0m"); // Reset color.
+    if (bIsColorModeActive)
+    {
+        fprintf(stdout, "\033[0m"); // Reset color.
+    }
     fprintf(stdout, "%s.\n\t", Name);
 
     char FMT[strlen(FailFMT) + 1 + 1];
@@ -47,7 +72,8 @@ void VFail(const char* Name, int bExitOnFail, const char* FailFMT, va_list FailA
         exit(1);
 }
 
-int Assert(size_t DataSize, const char* Name, int bExitOnFail, const void* Expected, const void* Actual, const char* FailFMT, ...)
+int Assert(size_t DataSize, const char* Name, int bExitOnFail, 
+    const void* Expected, const void* Actual, const char* FailFMT, ...)
 {
     int Passed = 1;
 
