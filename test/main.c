@@ -54,6 +54,8 @@ int TestColor()
 	Testly_SetColorMode(1);
 
 	Testly_SetColorMode(bColorConfig);
+
+	return 1;
 }
 
 int main(void)
