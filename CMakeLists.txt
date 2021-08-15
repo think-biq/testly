@@ -2,6 +2,10 @@ CMAKE_MINIMUM_REQUIRED (VERSION 3.2)
 
 project (Testly)
 
+if (NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Release" CACHE PATH "" FORCE)
+endif()
+
 file (GLOB Testly_SRC
 	"${PROJECT_SOURCE_DIR}/src/**/*.c")
 set (Testly_INC "${PROJECT_SOURCE_DIR}/src")

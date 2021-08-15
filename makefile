@@ -5,6 +5,9 @@ PROJECT_DIR := $(shell dirname $(FILE_PATH))
 PROJECT_NAME := $(notdir $(patsubst %/,%,$(dir $(FILE_PATH))))
 BUILD_DIR := "$(PROJECT_DIR)/staging"
 WITH_TEST := 1
+GRIND = valgrind
+GRIND_OPTS = --show-leak-kinds=all --leak-check=full --track-origins=yes -v
+BUILD_MODE = Release
 
 default: all
 
@@ -18,7 +21,7 @@ clean:
 
 prepare:
 	@mkdir -p "$(BUILD_DIR)"
-	@(cd $(BUILD_DIR) && cmake -D Testly_WithTest=${WITH_TEST} ..)
+	@(cd $(BUILD_DIR) && cmake -D Testly_WithTest=${WITH_TEST} -D CMAKE_BUILD_TYPE=${BUILD_MODE} ..)
 
 build:
 	@make -C "$(BUILD_DIR)"
@@ -40,4 +43,8 @@ clean-docs:
 build-run: build run-test
 
 all: prepare build-run
+
+grind:
+	mkdir -p log
+	$(GRIND) $(GRIND_OPTS) "$(BUILD_DIR)/./ShaOneTest" > log/debug 2> log/error
 
