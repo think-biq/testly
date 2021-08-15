@@ -21,8 +21,7 @@ int TestSunshine()
 	const char* Expected = SunshineHaiku;
 	char* Sunshine = GenerateSunshine();
 
-	int Passed = Assert(0, "GenerateSunshine", TESTLY_EXIT_ON_FAIL,
-		Expected, Sunshine, 
+	int Passed = Check("RainStorm", 0, Expected, Sunshine,
 		"Expected %s, got %s.", Expected, Sunshine
 	);
 
@@ -33,22 +32,33 @@ int TestSunshine()
 
 int TestRainAndFail()
 {
-	Fail("Rain", TESTLY_EXIT_ON_FAIL, "Missing umbrella.");
+	Fail("Rain", 0, "Missing umbrella.");
 
 	int Expected = 23;
 	int Rain = 42;
 
-	return Assert(sizeof(Expected), "RainStorm", TESTLY_EXIT_ON_FAIL,
-		&Expected, &Rain,
+	return Check("RainStorm", sizeof(Expected), &Expected, &Rain,
 		"Expected %i, got %i.", Expected, Rain
 	);
+}
+
+int TestColor()
+{
+	int bColorConfig = Testly_IsColorModeActive();
+
+	Testly_SetColorMode(1);
+	Fail("Colored", 0, "Failing with color.");
+
+	Testly_SetColorMode(0);
+	Fail("Uncolored", 0, "Failing without color.");
+	Testly_SetColorMode(1);
+
+	Testly_SetColorMode(bColorConfig);
 }
 
 int main(void)
 {
 	RUN_TEST(TestRainAndFail);
 	RUN_TEST(TestSunshine);
-	printf("Disabling color ...\n");
-	Testly_SetColorMode(0);
-	RUN_TEST(TestSunshine);
+	RUN_TEST(TestColor);
 }

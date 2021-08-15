@@ -72,8 +72,8 @@ void VFail(const char* Name, int bExitOnFail, const char* FailFMT, va_list FailA
         exit(1);
 }
 
-int Assert(size_t DataSize, const char* Name, int bExitOnFail, 
-    const void* Expected, const void* Actual, const char* FailFMT, ...)
+int Check_Internally(const char* Name, int bExitOnFail, size_t DataSize,
+    const void* Expected, const void* Actual, const char* FailFMT, va_list VarArgs)
 {
     int Passed = 1;
 
@@ -91,11 +91,29 @@ int Assert(size_t DataSize, const char* Name, int bExitOnFail,
 
     if (0 == Passed)
     {
-        va_list VarArgs;
-        va_start(VarArgs, FailFMT);
         VFail(NULL == Name ? "NULL" : Name, bExitOnFail, FailFMT, VarArgs);
-        va_end(VarArgs);
     }
 
     return Passed;
+}
+
+int Check(const char* Name, size_t DataSize,
+    const void* Expected, const void* Actual, const char* FailFMT, ...)
+{
+    va_list VarArgs;
+    va_start(VarArgs, FailFMT);
+    int Passed = Check_Internally(Name, 0, DataSize, Expected, Actual, FailFMT, VarArgs);
+    va_end(VarArgs);
+
+    return Passed;
+}
+
+
+void Assert(const char* Name, size_t DataSize,
+    const void* Expected, const void* Actual, const char* FailFMT, ...)
+{
+     va_list VarArgs;
+    va_start(VarArgs, FailFMT);
+    Check_Internally(Name, 1, DataSize, Expected, Actual, FailFMT, VarArgs);
+    va_end(VarArgs);
 }
