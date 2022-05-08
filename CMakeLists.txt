@@ -19,6 +19,7 @@ target_include_directories(
     Testly PUBLIC
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/src>"
 )
+set_property(TARGET Testly PROPERTY C_STANDARD 11)
 
 install(
     TARGETS Testly
@@ -36,9 +37,13 @@ install(
 )
 
 if(Testly_WithTest)
+    if(WIN32)
+        add_definitions(-Dstrdup=_strdup)
+    endif()
 	file(GLOB Testly_Test_SRC	
 		"${PROJECT_SOURCE_DIR}/test/*.c"
 		"${PROJECT_SOURCE_DIR}/test/**/*.c")
 	add_executable (TestlyTest ${Testly_Test_SRC})
 	target_link_libraries(TestlyTest Testly)
+    set_property(TARGET TestlyTest PROPERTY C_STANDARD 11)
 endif()
