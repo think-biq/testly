@@ -38,8 +38,8 @@ void Fail(const char* Name, int bExitOnFail, const char* FailFMT, ...)
     }
     fprintf(stdout, "%s.\n\t", Name);
 
-    char FMT[strlen(FailFMT) + 1 + 1];
-    sprintf(FMT, "%s\n", FailFMT);
+    char FMT[TESTLY_MAX_ERROR_STRING_LENGTH] = {0}; //[strlen(FailFMT) + 1 + 1];
+    snprintf(FMT, TESTLY_MAX_ERROR_STRING_LENGTH, "%s\n", FailFMT);
 
     va_list FailArgs;
     va_start(FailArgs, FailFMT);
@@ -64,8 +64,21 @@ void VFail(const char* Name, int bExitOnFail, const char* FailFMT, va_list FailA
     }
     fprintf(stdout, "%s.\n\t", Name);
 
-    char FMT[strlen(FailFMT) + 1 + 1];
-    sprintf(FMT, "%s\n", FailFMT);
+    char FMT[TESTLY_MAX_ERROR_STRING_LENGTH] = { 0 }; //[strlen(FailFMT) + 1 + 1];
+    size_t ActualLength = strlen(FailFMT);
+    size_t TargetLength = ActualLength + 2;
+    uint8_t bEnoughSpace = TargetLength < TESTLY_MAX_ERROR_STRING_LENGTH;
+    size_t CheckedLength = bEnoughSpace
+        ? TargetLength
+        : TESTLY_MAX_ERROR_STRING_LENGTH
+        ;
+    if (0 == bEnoughSpace) {
+        fprintf(stderr, 
+            "Trying to use longer format string than supported! (Given: %zu, Supported: %lu)\n",
+            TargetLength, TESTLY_MAX_ERROR_STRING_LENGTH
+        );
+    }
+    snprintf(FMT, CheckedLength, "%s\n", FailFMT);
     vfprintf(stdout, FMT, FailArgs); // Special case for varadic args.
     
     if (0 != bExitOnFail)
@@ -81,7 +94,12 @@ int Check_Internally(const char* Name, int bExitOnFail, size_t DataSize,
     {
         if (0 == DataSize)
         {
-            Passed = (0 == strcmp((const char*)Expected, (const char*)Actual));
+            const size_t StrLenActual = strlen(Actual);
+            const size_t StrLenExpected = strlen(Expected);
+            if (0 != (Passed = StrLenActual == StrLenExpected))
+            {
+                Passed = (0 == memcmp(Expected, Actual, StrLenActual));
+            }
         }
         else
         {

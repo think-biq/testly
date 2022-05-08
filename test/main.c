@@ -60,7 +60,7 @@ int TestColor()
 
 int main(void)
 {
-	RUN_TEST(TestRainAndFail);
 	RUN_TEST(TestSunshine);
+	RUN_TEST(TestRainAndFail);
 	RUN_TEST(TestColor);
 }

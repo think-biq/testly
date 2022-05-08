@@ -6,12 +6,15 @@ if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release" CACHE PATH "" FORCE)
 endif()
 
+if(WIN32)
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS=1)
+endif()
+
 file (GLOB Testly_SRC
 	"${PROJECT_SOURCE_DIR}/src/**/*.c")
 set (Testly_INC "${PROJECT_SOURCE_DIR}/src")
 include_directories (${Testly_INC})
 add_library(Testly ${Testly_SRC})
-
 target_include_directories(
     Testly PUBLIC
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/src>"

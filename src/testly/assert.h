@@ -15,6 +15,7 @@ All rights reserved.
 #include <string.h>
 
 #define TESTLY_EXIT_ON_FAIL 0
+#define TESTLY_MAX_ERROR_STRING_LENGTH 256
 
 #ifndef TESTLY_ASSERT_DISABLED
 /**
